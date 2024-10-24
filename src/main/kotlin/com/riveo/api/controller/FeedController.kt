@@ -1,20 +1,17 @@
-package com.riveo.model.controller
+package com.riveo.api.controller
 
-import com.riveo.model.Comment
-import com.riveo.model.Feed
-import com.riveo.model.Re_comment
-import com.riveo.model.request.FeedRequest
+import com.riveo.api.request.FeedRequest
 import com.riveo.service.FeedService
+import com.riveo.store.entities.Comment
+import com.riveo.store.entities.Feed
+import com.riveo.store.entities.Re_comment
 import io.micronaut.http.HttpStatus
-import io.micronaut.http.annotation.Body
-import io.micronaut.http.annotation.Controller
-import io.micronaut.http.annotation.Get
-import io.micronaut.http.annotation.Header
-import io.micronaut.http.annotation.Post
-import io.micronaut.http.annotation.Put
-import io.micronaut.http.annotation.Status
+import io.micronaut.http.annotation.*
 
-@Controller("/feed")
+//Неймин советую начинать с riveo/api/
+//Ознакокомься с библиотекой Lombok
+// @TODO(Lombok): @Getter и @Setter
+@Controller("/riveo/api/feed")
 class FeedController(
     private val feedService: FeedService
 ) {
@@ -26,6 +23,9 @@ class FeedController(
             feed = feedRequest.toModel()
         )
 
+    //Ну вот о чем я и говорил, у тебя тут появляется просто использование репозитория
+    //Сервис тут не обязателен
+    //Просто бесполезная обертка
     @Get
     fun getAll() =
         feedService.getAll()
@@ -34,6 +34,7 @@ class FeedController(
     fun getById(id: String) =
         feedService.getById(id)
 
+    // Request param по-хорошему бы использовать
     @Put("/{id}")
     fun update(
         id: String,
@@ -46,7 +47,10 @@ class FeedController(
         return feedService.update(id, request.toModel())
     }
 
+    //
     private fun FeedRequest.toModel(): Feed {
+        //Перенеси все такие ответы в отдельные классы DTO ()
+        //Это будет лучше читаться, и выглядеть понятнее
         val comments = this.comment.map { comment ->
             Comment(
                 author = comment.author,

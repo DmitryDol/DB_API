@@ -1,4 +1,4 @@
-package com.riveo.model
+package com.riveo.store.entities
 
 import io.micronaut.data.annotation.GeneratedValue
 import io.micronaut.data.annotation.Id

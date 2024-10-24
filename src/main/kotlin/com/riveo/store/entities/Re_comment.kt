@@ -1,4 +1,4 @@
-package com.riveo.model
+package com.riveo.store.entities
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import io.micronaut.serde.annotation.Serdeable.Deserializable
@@ -7,13 +7,12 @@ import java.time.Instant
 
 @Serializable
 @Deserializable
-data class Comment(
+data class Re_comment(
     val author: String,
     val text: String,
     val file_url: List<String>,
     val like: List<String>,
+    //Может использовать просто структуру Init, Spring сам умеет конвертировать ее в JSON, да как и Date в целом
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "UTC")
-    val date: Instant = Instant.now(),
-    val re_comment: List<Re_comment>
+    val date: Instant = Instant.now()
 )
-
